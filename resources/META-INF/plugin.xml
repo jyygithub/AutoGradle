@@ -7,16 +7,27 @@
     </vendor>
 
     <description><![CDATA[
-      <html>这是一个用于管理三方库的插件，可以获取三方库的最新版本，以及自动添加引入代码。<br/>
-      <a href="https://github.com/jyygithub/AutoGradle">AutoGradle on GitHub</a>
-      </html>
+      <h1>Translation</h1>
+      <br/>
+      <p>
+      <b>
+      <a href="https://github.com/jyygithub/AutoGradle">GitHub</a> |
+      <a href="https://github.com/jyygithub/AutoGradle/issues">Issues</a> |
+      </b>
+      </p>
+      <br/>
+      <p><b>A auto import gradle project plugin.</b></p>
+      <br/>
+      <p><img src="https://github.com/jyygithub/AutoGradle/blob/master/src/com/jiangyy/img/home_dialog.png" width="500" height="480" alt="screenshots-balloon.png"/></p>
+      <br/>
+      <p><a href="https://github.com/jyygithub/AutoGradle/issues">Send feedback</a></p>
     ]]></description>
 
     <change-notes><![CDATA[
-      <li>
-      1.0.0(2019-03-08)<br/>
-      初始版本(initial version)
-       </li>
+      <ul>
+        <li>初始版本</li>
+      </ul>
+      <a href="https://github.com/jyygithub/AutoGradle/CHANGELOG.md"><b>Full Changelog History</b></a>
     ]]></change-notes>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
