@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.jiangyy.auto-gradle</id>
     <name>AutoGradle</name>
-    <version>1.0</version>
+    <version>1.0.0</version>
     <vendor email="jiangyychn@gmail.com" url="http://www.github.com/jyygithub/AutoGradle">
         http://www.github.com/jyygithub/AutoGradle
     </vendor>
@@ -16,9 +16,21 @@
       </b>
       </p>
       <br/>
-      <p><b>A auto import gradle project plugin.</b></p>
+      <h2>A auto import gradle project plugin.</h2>
       <br/>
-      <p><img src="https://github.com/jyygithub/AutoGradle/blob/master/src/com/jiangyy/img/home_dialog.png" width="500" height="480" alt="screenshots-balloon.png"/></p>
+      <h2>Usage:</h2>
+      <br/>
+      <ul>
+        <li>Ctrl + Alt + 5</li>
+        <li>Tool -> AutoGradle</li>
+        <li>Click the button below</li>
+      </ul>
+      <br/>
+      <p><img src="http://jiangyunyang.com//plugin/AutoGradle/img/toolbar_logo.png" width="750" height="30" alt="toolbar_logo.png"/></p>
+      <br/>
+      <h2>The following figure is the operation interface</h2>
+      <br/>
+      <p><img src="http://jiangyunyang.com//plugin/AutoGradle/img/home_dialog.png" width="750" height="370" alt="screenshots.png"/></p>
       <br/>
       <p><a href="https://github.com/jyygithub/AutoGradle/issues">Send feedback</a></p>
     ]]></description>
@@ -27,7 +39,7 @@
       <ul>
         <li>初始版本</li>
       </ul>
-      <a href="https://github.com/jyygithub/AutoGradle/CHANGELOG.md"><b>Full Changelog History</b></a>
+      <a href="https://github.com/jyygithub/AutoGradle/blob/master/CHANGELOG.md"><b>Full Changelog History</b></a>
     ]]></change-notes>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
