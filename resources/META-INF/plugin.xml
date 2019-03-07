@@ -1,0 +1,47 @@
+<idea-plugin>
+    <id>com.jiangyy.auto-gradle</id>
+    <name>AutoGradle</name>
+    <version>1.0</version>
+    <vendor email="jiangyychn@gmail.com" url="http://www.github.com/jyygithub/AutoGradle">
+        http://www.github.com/jyygithub/AutoGradle
+    </vendor>
+
+    <description><![CDATA[
+      <html>这是一个用于管理三方库的插件，可以获取三方库的最新版本，以及自动添加引入代码。<br/>
+      <a href="https://github.com/jyygithub/AutoGradle">AutoGradle on GitHub</a>
+      </html>
+    ]]></description>
+
+    <change-notes><![CDATA[
+      <li>
+      1.0.0(2019-03-08)<br/>
+      初始版本(initial version)
+       </li>
+    ]]></change-notes>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="173.0"/>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+
+    <!-- uncomment to enable plugin in all products
+    <depends>com.intellij.modules.lang</depends>
+    -->
+
+    <!--uncomment to enable plugin in all products-->
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <action id="JyyPlugin.AutoGradleAction" class="com.jiangyy.action.AutoGradleAction" text="AutoGradle"
+                icon="/META-INF/pluginIcon.svg"
+                description="auto gradle">
+            <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt NUMPAD5"/>
+        </action>
+    </actions>
+
+</idea-plugin>
