@@ -16,219 +16,17 @@ import com.jiangyy.entity.Resp;
 import okhttp3.*;
 
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.net.URI;
 
-public class HomeDialog extends JDialog {
+import static com.jiangyy.entity.Config.ALL_DATA;
+import static com.jiangyy.entity.Config.ALL_DATA_NO;
+
+public class HomeDialog extends JFrame {
 
     private boolean DEBUG = false;
-
-    private Repository[] ALL_DATA = {
-            new Repository(
-                    false,
-                    "AndPermission",
-                    "yanzhenjie",
-                    "2.0.1",
-                    "com.yanzhenjie.permission:support:",
-                    "",
-                    "JCenter"
-            ),
-            new Repository(
-                    false,
-                    "BaseRecyclerViewAdapterHelper",
-                    "CymChad",
-                    "2.9.46",
-                    "com.github.CymChad:BaseRecyclerViewAdapterHelper:",
-                    "",
-                    "JitPack"
-            ),
-            new Repository(
-                    false,
-                    "glide",
-                    "bumptech",
-                    "4.9.0",
-                    "com.github.bumptech.glide:glide:",
-                    "com.github.bumptech.glide:compiler:",
-                    "MavenCentral"
-            ),
-            new Repository(
-                    false,
-                    "okhttp",
-                    "square",
-                    "3.13.1",
-                    "com.squareup.okhttp3:okhttp:",
-                    "",
-                    "JCenter"
-            ),
-            new Repository(
-                    false,
-                    "retrofit",
-                    "square",
-                    "2.5.0",
-                    "com.squareup.retrofit2:retrofit:",
-                    "",
-                    "JCenter"
-            ),
-            new Repository(
-                    false,
-                    "retrofit-adapter-rxjava2",
-                    "square",
-                    "2.5.0",
-                    "com.squareup.retrofit2:adapter-rxjava2:",
-                    "",
-                    "JCenter"
-            ),
-            new Repository(
-                    false,
-                    "retrofit-converter-gson",
-                    "square",
-                    "2.5.0",
-                    "com.squareup.retrofit2:converter-gson:",
-                    "",
-                    "JCenter"
-            ),
-            new Repository(
-                    false,
-                    "RxAndroid",
-                    "ReactiveX",
-                    "2.1.1",
-                    "io.reactivex.rxjava2:rxandroid:",
-                    "",
-                    "JCenter"
-            ),
-            new Repository(
-                    false,
-                    "SmartRefreshLayout",
-                    "scwang90",
-                    "1.1.0-alpha-20",
-                    "com.scwang.smartrefresh:SmartRefreshLayout:",
-                    "",
-                    "JCenter"
-            ),
-            new Repository(
-                    false,
-                    "smart-show",
-                    "the-pig-of-jungle",
-                    "2.6.3",
-                    "com.github.the-pig-of-jungle.smart-show:toast:",
-                    "",
-                    "JitPack"
-            ),
-            new Repository(
-                    false,
-                    "XPopup",
-                    "li-xiaojun",
-                    "1.4.4",
-                    "com.lxj:xpopup:",
-                    "",
-                    "JCenter"
-            )
-    };
-
-    private Repository[] ALL_DATA_NO = {
-            new Repository(
-                    false,
-                    "AndPermission",
-                    "yanzhenjie",
-                    "2.0.1",
-                    "com.yanzhenjie.permission:support:",
-                    "",
-                    "JCenter"
-            ),
-            new Repository(
-                    false,
-                    "BaseRecyclerViewAdapterHelper",
-                    "CymChad",
-                    "2.9.46",
-                    "com.github.CymChad:BaseRecyclerViewAdapterHelper:",
-                    "",
-                    "JitPack"
-            ),
-            new Repository(
-                    false,
-                    "glide",
-                    "bumptech",
-                    "4.9.0",
-                    "com.github.bumptech.glide:glide:",
-                    "com.github.bumptech.glide:compiler:",
-                    "MavenCentral"
-            ),
-            new Repository(
-                    false,
-                    "okhttp",
-                    "square",
-                    "3.13.1",
-                    "com.squareup.okhttp3:okhttp:",
-                    "",
-                    "JCenter"
-            ),
-            new Repository(
-                    false,
-                    "retrofit",
-                    "square",
-                    "2.5.0",
-                    "com.squareup.retrofit2:retrofit:",
-                    "",
-                    "JCenter"
-            ),
-            new Repository(
-                    false,
-                    "retrofit-adapter-rxjava2",
-                    "square",
-                    "2.5.0",
-                    "com.squareup.retrofit2:adapter-rxjava2:",
-                    "",
-                    "JCenter"
-            ),
-            new Repository(
-                    false,
-                    "retrofit-converter-gson",
-                    "square",
-                    "2.5.0",
-                    "com.squareup.retrofit2:converter-gson:",
-                    "",
-                    "JCenter"
-            ),
-            new Repository(
-                    false,
-                    "RxAndroid",
-                    "ReactiveX",
-                    "2.1.1",
-                    "io.reactivex.rxjava2:rxandroid:",
-                    "",
-                    "JCenter"
-            ),
-            new Repository(
-                    false,
-                    "SmartRefreshLayout",
-                    "scwang90",
-                    "1.1.0-alpha-20",
-                    "com.scwang.smartrefresh:SmartRefreshLayout:",
-                    "",
-                    "JCenter"
-            ),
-            new Repository(
-                    false,
-                    "smart-show",
-                    "the-pig-of-jungle",
-                    "2.6.3",
-                    "com.github.the-pig-of-jungle.smart-show:toast:",
-                    "",
-                    "JitPack"
-            ),
-            new Repository(
-                    false,
-                    "XPopup",
-                    "li-xiaojun",
-                    "1.4.4",
-                    "com.lxj:xpopup:",
-                    "",
-                    "JCenter"
-            )
-    };
 
     private AnActionEvent event;
     private JPanel contentPane;
@@ -246,13 +44,14 @@ public class HomeDialog extends JDialog {
         this.event = event;
 
         setContentPane(contentPane);
-        setModal(true);
+//        setModal(true);
         setTitle("Auto Gradle");
         getRootPane().setDefaultButton(buttonOK);
 
         JBTable table = new JBTable(new MyTableModel());
         table.setPreferredScrollableViewportSize(new Dimension(800, 300));
         table.setFillsViewportHeight(true);
+//        table.getTableHeader().setDefaultRenderer(new CheckHeaderCellRenderer(table));
         table.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -383,7 +182,7 @@ public class HomeDialog extends JDialog {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Resp bean = JSON.parseObject(response.body().string(), Resp.class);
-                table.setValueAt(bean.getTag_name(), row, 2);
+                table.setValueAt(bean.getName(), row, 4);
                 showNotification(repository.getName(), "更新成功", repository.getName() + " 更新完成：" + bean.getTag_name());
 
 
@@ -400,86 +199,6 @@ public class HomeDialog extends JDialog {
                 NotificationType.INFORMATION,
                 null
         ).notify(event.getProject());
-    }
-
-    private class MyTableModel extends AbstractTableModel {
-
-        private String[] columnNames = {"", "Repository", "Version", "Address"};
-
-        @Override
-        public int getRowCount() {
-            return ALL_DATA.length;
-        }
-
-        @Override
-        public int getColumnCount() {
-            return columnNames.length;
-        }
-
-        @Override
-        public String getColumnName(int column) {
-            return columnNames[column];
-        }
-
-        @Override
-        public Class<?> getColumnClass(int columnIndex) {
-            return getValueAt(0, columnIndex).getClass();
-        }
-
-        @Override
-        public boolean isCellEditable(int rowIndex, int columnIndex) {
-            return columnIndex == 0 || columnIndex == 2;
-        }
-
-        @Override
-        public Object getValueAt(int rowIndex, int columnIndex) {
-            Object o;
-            switch (columnIndex) {
-                case 0: {
-                    o = ALL_DATA[rowIndex].isChoose();
-                    break;
-                }
-                case 1: {
-                    o = ALL_DATA[rowIndex].getName();
-                    break;
-                }
-                case 2: {
-                    o = ALL_DATA[rowIndex].getVersion();
-                    break;
-                }
-                case 3: {
-                    o = "Github";
-                    break;
-                }
-                default: {
-                    o = "";
-                    break;
-                }
-            }
-            return o;
-        }
-
-        @Override
-        public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-//            if (DEBUG) {
-//               println("Old value of data:" + JSON.toJSONString(ALL_DATA[rowIndex]));
-//            }
-            switch (columnIndex) {
-                case 0:
-                    ALL_DATA[rowIndex].setChoose((boolean) aValue);
-                    break;
-                case 2:
-                    ALL_DATA[rowIndex].setVersion((String) aValue);
-                    break;
-                default:
-                    break;
-            }
-            fireTableCellUpdated(rowIndex, columnIndex);
-
-//            if (DEBUG) {
-//                println("New value of data:" + JSON.toJSONString(ALL_DATA[rowIndex]));
-//            }
-        }
     }
 
 }
