@@ -17,7 +17,7 @@ public class MyTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return allData.size();
+        return allData == null ? 0 : allData.size();
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.jiangyy.ui;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.intellij.notification.NotificationDisplayType;
 import com.intellij.notification.NotificationGroup;
 import com.intellij.notification.NotificationType;
@@ -14,7 +13,6 @@ import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.table.JBTable;
 import com.jiangyy.entity.Repository;
 import com.jiangyy.entity.Resp;
-import com.jiangyy.utils.ParserUtils;
 import okhttp3.*;
 
 import javax.swing.*;
@@ -42,10 +40,12 @@ public class HomeDialog extends JFrame {
     private List<Repository> ALL_DATA;
     private List<Repository> ALL_DATA_NO;
 
-    public HomeDialog(AnActionEvent event) {
+    public HomeDialog(AnActionEvent event, List<Repository> data, List<Repository> data0) {
 
         this.event = event;
-        initData();
+        this.ALL_DATA = data;
+        this.ALL_DATA_NO = data0;
+
         setContentPane(contentPane);
 //        setModal(true);
         setTitle("Auto Gradle");
@@ -202,14 +202,6 @@ public class HomeDialog extends JFrame {
                 NotificationType.INFORMATION,
                 null
         ).notify(event.getProject());
-    }
-
-
-    private void initData() {
-        String path = getClass().getClassLoader().getResource("alldata.json").getPath();
-        String s = ParserUtils.readJsonFile(path);
-        ALL_DATA = JSONArray.parseArray(s, Repository.class);
-        ALL_DATA_NO = JSONArray.parseArray(s, Repository.class);
     }
 
 }
