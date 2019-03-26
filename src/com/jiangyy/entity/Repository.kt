@@ -9,7 +9,8 @@ class Repository(
         var gradle: String,
         var processor: String,
         var maven: String,
-        var remark: String
+        var remark: String,
+        var latest_version: String
 )
 
 class Resp(

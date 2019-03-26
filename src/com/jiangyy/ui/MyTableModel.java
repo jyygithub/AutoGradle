@@ -1,16 +1,23 @@
 package com.jiangyy.ui;
 
-import javax.swing.table.AbstractTableModel;
+import com.jiangyy.entity.Repository;
 
-import static com.jiangyy.entity.Config.ALL_DATA;
+import javax.swing.table.AbstractTableModel;
+import java.util.List;
 
 public class MyTableModel extends AbstractTableModel {
 
-    private String[] columnNames = {"", "Repository", "Version", "Address", "Remark"};
+    private List<Repository> allData;
+
+    public MyTableModel(List<Repository> ALL_DATA) {
+        this.allData = ALL_DATA;
+    }
+
+    private String[] columnNames = {"", "Repository", "Version", "Address", "Latest Version"};
 
     @Override
     public int getRowCount() {
-        return ALL_DATA.length;
+        return allData.size();
     }
 
     @Override
@@ -38,15 +45,15 @@ public class MyTableModel extends AbstractTableModel {
         Object o;
         switch (columnIndex) {
             case 0: {
-                o = ALL_DATA[rowIndex].isChoose();
+                o = allData.get(rowIndex).isChoose();
                 break;
             }
             case 1: {
-                o = ALL_DATA[rowIndex].getName();
+                o = allData.get(rowIndex).getName();
                 break;
             }
             case 2: {
-                o = ALL_DATA[rowIndex].getVersion();
+                o = allData.get(rowIndex).getVersion();
                 break;
             }
             case 3: {
@@ -54,7 +61,7 @@ public class MyTableModel extends AbstractTableModel {
                 break;
             }
             case 4: {
-                o = ALL_DATA[rowIndex].getRemark();
+                o = allData.get(rowIndex).getRemark();
                 break;
             }
             default: {
@@ -69,13 +76,13 @@ public class MyTableModel extends AbstractTableModel {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         switch (columnIndex) {
             case 0:
-                ALL_DATA[rowIndex].setChoose((boolean) aValue);
+                allData.get(rowIndex).setChoose((boolean) aValue);
                 break;
             case 2:
-                ALL_DATA[rowIndex].setVersion((String) aValue);
+                allData.get(rowIndex).setVersion((String) aValue);
                 break;
             case 4:
-                ALL_DATA[rowIndex].setRemark((String) aValue);
+                allData.get(rowIndex).setRemark((String) aValue);
                 break;
             default:
                 break;

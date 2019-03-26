@@ -1,6 +1,7 @@
 package com.jiangyy.ui;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.intellij.notification.NotificationDisplayType;
 import com.intellij.notification.NotificationGroup;
 import com.intellij.notification.NotificationType;
@@ -13,6 +14,7 @@ import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.table.JBTable;
 import com.jiangyy.entity.Repository;
 import com.jiangyy.entity.Resp;
+import com.jiangyy.utils.ParserUtils;
 import okhttp3.*;
 
 import javax.swing.*;
@@ -20,9 +22,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.net.URI;
-
-import static com.jiangyy.entity.Config.ALL_DATA;
-import static com.jiangyy.entity.Config.ALL_DATA_NO;
+import java.util.List;
 
 public class HomeDialog extends JFrame {
 
@@ -39,16 +39,19 @@ public class HomeDialog extends JFrame {
     private JPanel bottomPane;
     private JPanel tablePane;
 
+    private List<Repository> ALL_DATA;
+    private List<Repository> ALL_DATA_NO;
+
     public HomeDialog(AnActionEvent event) {
 
         this.event = event;
-
+        initData();
         setContentPane(contentPane);
 //        setModal(true);
         setTitle("Auto Gradle");
         getRootPane().setDefaultButton(buttonOK);
 
-        JBTable table = new JBTable(new MyTableModel());
+        JBTable table = new JBTable(new MyTableModel(ALL_DATA));
         table.setPreferredScrollableViewportSize(new Dimension(800, 300));
         table.setFillsViewportHeight(true);
 //        table.getTableHeader().setDefaultRenderer(new CheckHeaderCellRenderer(table));
@@ -60,7 +63,7 @@ public class HomeDialog extends JFrame {
                 if (col == 3) {
                     Desktop desktop = Desktop.getDesktop();
                     try {
-                        URI uri = new URI("http://www.github.com/" + ALL_DATA[row].getUser() + "/" + ALL_DATA[row].getName());
+                        URI uri = new URI("http://www.github.com/" + ALL_DATA.get(row).getUser() + "/" + ALL_DATA.get(row).getName());
                         desktop.browse(uri);
                     } catch (Exception ex) {
                         // do nothing
@@ -113,19 +116,19 @@ public class HomeDialog extends JFrame {
         contentPane.registerKeyboardAction(e1 -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onRefresh(JBTable table, Repository[] data) {
+    private void onRefresh(JBTable table, List<Repository> data) {
 
-        for (int index = 0; index < data.length; index++) {
-            if (data[index].isChoose()) {
+        for (int index = 0; index < data.size(); index++) {
+            if (data.get(index).isChoose()) {
                 getLastestTag(index, table);
             }
         }
     }
 
-    private void onReset(JBTable table, Repository[] data) {
-        for (int index = 0; index < data.length; index++) {
-            table.setValueAt(data[index].isChoose(), index, 0);
-            table.setValueAt(data[index].getVersion(), index, 2);
+    private void onReset(JBTable table, List<Repository> data) {
+        for (int index = 0; index < data.size(); index++) {
+            table.setValueAt(data.get(index).isChoose(), index, 0);
+            table.setValueAt(data.get(index).getVersion(), index, 2);
         }
     }
 
@@ -137,7 +140,7 @@ public class HomeDialog extends JFrame {
         dispose();
     }
 
-    private void insetStringAfterOffset(AnActionEvent e, Repository[] data) {
+    private void insetStringAfterOffset(AnActionEvent e, List<Repository> data) {
         Editor editor = e.getRequiredData(CommonDataKeys.EDITOR);
         CaretModel caretModel = editor.getCaretModel();
         int offset = caretModel.getOffset();
@@ -164,7 +167,7 @@ public class HomeDialog extends JFrame {
     }
 
     private void getLastestTag(int row, JBTable table) {
-        Repository repository = ALL_DATA[row];
+        Repository repository = ALL_DATA.get(row);
         String url = "https://api.github.com/repos/" + repository.getUser() + "/" + repository.getName() + "/releases/latest";
         OkHttpClient client = new OkHttpClient();
         final Request request = new Request.Builder()
@@ -199,6 +202,14 @@ public class HomeDialog extends JFrame {
                 NotificationType.INFORMATION,
                 null
         ).notify(event.getProject());
+    }
+
+
+    private void initData() {
+        String path = getClass().getClassLoader().getResource("alldata.json").getPath();
+        String s = ParserUtils.readJsonFile(path);
+        ALL_DATA = JSONArray.parseArray(s, Repository.class);
+        ALL_DATA_NO = JSONArray.parseArray(s, Repository.class);
     }
 
 }

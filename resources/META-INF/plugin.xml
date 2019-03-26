@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.jiangyy.auto-gradle</id>
     <name>AutoGradle</name>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <vendor email="jiangyychn@gmail.com" url="http://www.github.com/jyygithub/AutoGradle">
         http://www.github.com/jyygithub/AutoGradle
     </vendor>
@@ -37,7 +37,8 @@
 
     <change-notes><![CDATA[
       <ul>
-        <li>初始版本</li>
+        <li>增加Repository</li>
+        <li>新增Latest Version</li>
       </ul>
       <a href="https://github.com/jyygithub/AutoGradle/blob/master/CHANGELOG.md"><b>Full Changelog History</b></a>
     ]]></change-notes>
