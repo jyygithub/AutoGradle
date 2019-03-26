@@ -2,7 +2,7 @@
 
 [![Github](https://img.shields.io/badge/github-AutoGradle-blue.svg)](https://www.github.com/jyygithub/AutoGradle)
 [![Issue](https://img.shields.io/badge/issue-AutoGradle-red.svg)](https://github.com/jyygithub/AutoGradle/issues)
-[![Version](https://img.shields.io/badge/version-1.0.0-lightgrey.svg)](https://plugins.jetbrains.com/plugin/12061-autogradle)
+[![Version](https://img.shields.io/badge/version-1.0.1-lightgrey.svg)](https://plugins.jetbrains.com/plugin/12061-autogradle)
 ![Support](https://img.shields.io/badge/support-Android%20Studio-green.svg)
 
 ## A auto import gradle project plugin.
