@@ -1,0 +1,69 @@
+<idea-plugin>
+  <id>com.jiangyy.auto-gradle</id>
+  <name>AutoGradle</name>
+  <version>1.0.2</version>
+  <vendor email="jiangyychn@gmail.com" url="http://www.github.com/jyygithub/AutoGradle">
+    http://www.github.com/jyygithub/AutoGradle
+  </vendor>
+
+  <description><![CDATA[
+      <h1>AutoGradle</h1>
+      <br/>
+      <p>
+      <b>
+      <a href="https://github.com/jyygithub/AutoGradle">GitHub</a> |
+      <a href="https://github.com/jyygithub/AutoGradle/issues">Issues</a> |
+      </b>
+      </p>
+      <br/>
+      <h2>A auto import gradle project plugin.</h2>
+      <br/>
+      <h2>Usage:</h2>
+      <br/>
+      <ul>
+        <li>Ctrl + Alt + 5</li>
+        <li>Tool -> AutoGradle</li>
+        <li>Click the button below</li>
+      </ul>
+      <br/>
+      <p><img src="http://jiangyunyang.com//plugin/AutoGradle/img/toolbar_logo.png" width="750" height="30" alt="toolbar_logo.png"/></p>
+      <br/>
+      <h2>The following figure is the operation interface</h2>
+      <br/>
+      <p><img src="http://jiangyunyang.com//plugin/AutoGradle/img/home_dialog.png" width="750" height="370" alt="screenshots.png"/></p>
+      <br/>
+      <p><a href="https://github.com/jyygithub/AutoGradle/issues">Send feedback</a></p>
+    ]]></description>
+
+  <change-notes><![CDATA[
+      <ul>
+        <li>增加Repository</li>
+        <li>新增AndroidX支持</li>
+      </ul>
+      <a href="https://github.com/jyygithub/AutoGradle/blob/master/CHANGELOG.md"><b>Full Changelog History</b></a>
+    ]]></change-notes>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+  <idea-version since-build="173.0"/>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+  <!-- uncomment to enable plugin in all products
+  <depends>com.intellij.modules.lang</depends>
+  -->
+
+  <extensions defaultExtensionNs="com.intellij">
+    <!-- Add your extensions here -->
+  </extensions>
+
+  <actions>
+    <action id="JyyPlugin.AutoGradleAction" class="com.jiangyy.action.AutoGradleAction" text="AutoGradle"
+            icon="/META-INF/pluginIcon.svg"
+            description="auto gradle">
+      <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
+      <add-to-group group-id="ToolsMenu" anchor="last"/>
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt NUMPAD5"/>
+    </action>
+  </actions>
+
+</idea-plugin>
