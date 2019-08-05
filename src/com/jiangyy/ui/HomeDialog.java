@@ -151,23 +151,28 @@ public class HomeDialog extends JFrame {
             public void run() {
                 for (Repository resp : data) {
                     if (resp.isChoose()) {
-                        String impl = "\n    // " + resp.getName() + "\n    implementation \'" + resp.getGradle() + resp.getVersion() + "\'";
-                        if (!resp.getProcessor().isEmpty()) {
-                            if (androidXCheckBox.isSelected()) {
+                        if (androidXCheckBox.isSelected()) {
+                            String impl = "\n    // " + resp.getName() + "\n    implementation \'" + resp.getGradle_x() + resp.getVersion_x() + "\'";
+                            if (!resp.getProcessor().isEmpty()) {
                                 if (kotlinCheckBox.isSelected()) {
                                     impl += "\n    kapt \'" + resp.getProcessor_x() + resp.getVersion_x() + "\'";
                                 } else {
                                     impl += "\n    annotationProcessor \'" + resp.getProcessor_x() + resp.getVersion_x() + "\'";
                                 }
-                            } else {
+                            }
+                            editor.getDocument().insertString(offset, impl);
+                        } else {
+                            String impl = "\n    // " + resp.getName() + "\n    implementation \'" + resp.getGradle() + resp.getVersion() + "\'";
+                            if (!resp.getProcessor().isEmpty()) {
                                 if (kotlinCheckBox.isSelected()) {
                                     impl += "\n    kapt \'" + resp.getProcessor() + resp.getVersion() + "\'";
                                 } else {
                                     impl += "\n    annotationProcessor \'" + resp.getProcessor() + resp.getVersion() + "\'";
                                 }
                             }
+                            editor.getDocument().insertString(offset, impl);
                         }
-                        editor.getDocument().insertString(offset, impl);
+
                     }
                 }
             }

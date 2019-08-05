@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.jiangyy.auto-gradle</id>
   <name>AutoGradle</name>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
   <vendor email="jiangyychn@gmail.com" url="http://www.github.com/jyygithub/AutoGradle">
     http://www.github.com/jyygithub/AutoGradle
   </vendor>
@@ -26,11 +26,11 @@
         <li>Click the button below</li>
       </ul>
       <br/>
-      <p><img src="http://jiangyunyang.com//plugin/AutoGradle/img/toolbar_logo.png" width="750" height="30" alt="toolbar_logo.png"/></p>
+      <p><img src="https://github.com/jyygithub/AutoGradle/blob/master/img/plugin_toolbar.png" width="750" height="30" alt="toolbar_logo.png"/></p>
       <br/>
       <h2>The following figure is the operation interface</h2>
       <br/>
-      <p><img src="http://jiangyunyang.com//plugin/AutoGradle/img/home_dialog.png" width="750" height="370" alt="screenshots.png"/></p>
+      <p><img src="https://github.com/jyygithub/AutoGradle/blob/master/img/plugin_main.png" width="750" height="370" alt="screenshots.png"/></p>
       <br/>
       <p><a href="https://github.com/jyygithub/AutoGradle/issues">Send feedback</a></p>
     ]]></description>
@@ -39,6 +39,7 @@
       <ul>
         <li>增加Repository</li>
         <li>新增AndroidX支持</li>
+        <li>修复BUG</li>
       </ul>
       <a href="https://github.com/jyygithub/AutoGradle/blob/master/CHANGELOG.md"><b>Full Changelog History</b></a>
     ]]></change-notes>
