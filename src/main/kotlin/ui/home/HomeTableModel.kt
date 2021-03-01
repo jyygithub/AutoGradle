@@ -1,4 +1,4 @@
-package ui
+package ui.home
 
 import entity.Repository
 import javax.swing.table.AbstractTableModel

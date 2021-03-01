@@ -9,7 +9,8 @@ class Repository(
     val kapt: String?,
     var customVersion: String?,
     var warehouse: String?,
-    val remark: String?
+    val remark: String?,
+    val description: String?,
 ) {
     var isChoose: Boolean = false
 }

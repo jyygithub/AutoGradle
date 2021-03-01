@@ -1,4 +1,4 @@
-package ui
+package ui.home
 
 import javax.swing.Icon
 import javax.swing.JLabel

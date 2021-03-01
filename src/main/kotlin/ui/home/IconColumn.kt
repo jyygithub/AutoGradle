@@ -1,4 +1,4 @@
-package ui
+package ui.home
 
 import com.intellij.ui.table.JBTable
 import icons.Icons

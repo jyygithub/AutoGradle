@@ -27,7 +27,11 @@
     <depends>com.intellij.modules.java</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
+        <toolWindow id="Repository Book"
+                    icon="Icons.PluginIcon"
+                    anchor="right"
+                    secondary="true"
+                    factoryClass="repobook.RepositoryBookToolWindowFactory"/>
     </extensions>
 
     <change-notes><![CDATA[

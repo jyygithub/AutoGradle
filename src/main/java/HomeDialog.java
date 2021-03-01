@@ -10,12 +10,11 @@ import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.table.JBTable;
 import com.intellij.util.ui.JBDimension;
 import entity.Repository;
-import icons.Icons;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ui.HomeTableModel;
-import ui.IconColumn;
+import ui.home.HomeTableModel;
+import ui.home.IconColumn;
 import utils.Utils;
 
 import javax.swing.*;
@@ -24,8 +23,6 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
@@ -37,10 +34,6 @@ public class HomeDialog extends DialogWrapper implements DocumentListener, Mouse
     private JPanel contentPanel;
     private JTextField searchTextField;
     private JPanel tablePanel;
-    private JRadioButton radioButton1;
-    private JRadioButton javaRadioButton;
-    private JRadioButton radioButton3;
-    private JRadioButton radioButton4;
 
     private final AnActionEvent event;
     private final List<Repository> repositoryArrayList = new ArrayList<>();
@@ -60,12 +53,14 @@ public class HomeDialog extends DialogWrapper implements DocumentListener, Mouse
     }
 
     @Override
-    protected @Nullable JComponent createCenterPanel() {
+    protected @Nullable
+    JComponent createCenterPanel() {
         return contentPanel;
     }
 
     @Override
-    protected @NotNull DialogStyle getStyle() {
+    protected @NotNull
+    DialogStyle getStyle() {
         return DialogStyle.COMPACT;
     }
 
