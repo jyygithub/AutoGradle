@@ -8,17 +8,21 @@ import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import ui.book.BookTableModel;
 import ui.book.RepositoryColumn;
+import ui.home.IconColumn;
+import utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RepositoryBookWindowForm extends SimpleToolWindowPanel {
+public class RepositoryBookWindowForm extends SimpleToolWindowPanel implements MouseListener {
 
     private JPanel rootPanel;
-    private JTextField textField1;
+    private JTextField searchTextField;
     private JPanel tablePanel;
 
     public RepositoryBookWindowForm() {
@@ -36,8 +40,9 @@ public class RepositoryBookWindowForm extends SimpleToolWindowPanel {
         table = new JBTable(new BookTableModel(repositoryArrayList));
         table.setPreferredScrollableViewportSize(new Dimension(800, 300));
         table.setFillsViewportHeight(true);
-
+        table.addMouseListener(this);
         new RepositoryColumn(table, 0);
+        new IconColumn(table, 1);
 
         JBScrollPane scrollPane = new JBScrollPane(table);
         tablePanel.setLayout(new GridLayout(1, 0));
@@ -66,4 +71,36 @@ public class RepositoryBookWindowForm extends SimpleToolWindowPanel {
                 });
     }
 
+    @Override
+    public void mouseClicked(MouseEvent mouseEvent) {
+        int row = table.rowAtPoint(mouseEvent.getPoint());
+        int col = table.columnAtPoint(mouseEvent.getPoint());
+        switch (col) {
+            case 1: // 跳转Github
+                Utils.startUri(repositoryArrayList.get(row));
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
+
+    }
 }

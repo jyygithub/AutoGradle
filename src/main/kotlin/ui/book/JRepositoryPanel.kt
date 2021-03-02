@@ -8,28 +8,29 @@ import javax.swing.border.EmptyBorder
 
 class JRepositoryPanel : JPanel() {
 
-    private val labelImplementation: JLabel = JLabel()
+    private val labelName: JLabel = JLabel().apply {
+//        border = EmptyBorder(10, 10, 0, 10)
+    }
+    private val labelImplementation: JLabel = JLabel().apply {
+//        border = EmptyBorder(0, 10, 0, 10)
+    }
 
     init {
         border = EmptyBorder(10, 10, 10, 10)
         layout = GridLayout(1, 1)
-        add(labelImplementation)
+        add(labelName)
     }
 
     fun setRepository(repository: Repository) {
-        val result = StringBuilder()
-        result.append("<html>")
-        result.append("<font size=5><b>${repository.user}/${repository.name}</b></font>")
-        result.append("<br>")
-        result.append("<em>${repository.description}</em>")
-        result.append("<br>")
-        result.append("implementation \'${repository.implementation}${repository.version}\'")
-        if (!repository.kapt.isNullOrEmpty()) {
-            result.append("<br>")
-            result.append("kapt \'${repository.kapt.orEmpty()}${repository.version}\'")
+        val stringBuilder = StringBuilder()
+        stringBuilder.append("<html><body>")
+        stringBuilder.append("""<b style="font-size: 14px">${repository.user}/${repository.name}</b></h2><br/>""")
+        stringBuilder.append("<i>${repository.description.orEmpty()}</i><br/>")
+        stringBuilder.append("""implement '${repository.implementation}${repository.version}'""")
+        if(!repository.kapt.isNullOrEmpty()){
+            stringBuilder.append("""<br/>kapt '${repository.kapt}${repository.version}'""")
         }
-        result.append("</html>")
-        labelImplementation.text = result.toString()
+        stringBuilder.append("</body></html>")
+        labelName.text = stringBuilder.toString()
     }
-
 }
