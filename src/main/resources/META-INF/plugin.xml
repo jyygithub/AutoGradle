@@ -4,6 +4,7 @@
     <vendor email="jiangyychn@gmail.com" url="https://www.github.com/jyygithub/">jyygithub</vendor>
 
     <description><![CDATA[
+        <p><b>Get github repositories which are widely used while developing, and then 'implementation' quickly.</b></p>
         <p><b>获取常用的Github开源库，并快速进行implementation</b></p>
         <br/>
         <p>
@@ -36,8 +37,12 @@
 
     <change-notes><![CDATA[
       <ul>
+        <li>Get github repositories from the network.</li>
+        <li>Add search.</li>
+        <li>Fix bug.</li>
+      </ul>
+      <ul>
         <li>通过网络请求获取Repository</li>
-        <li>界面进行优化</li>
         <li>增加搜索</li>
         <li>修复BUG</li>
       </ul>
