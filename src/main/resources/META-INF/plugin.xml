@@ -27,14 +27,6 @@
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
     <depends>com.intellij.modules.java</depends>
 
-    <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="Repository Book"
-                    icon="Icons.PluginIcon"
-                    anchor="right"
-                    secondary="true"
-                    factoryClass="repobook.RepositoryBookToolWindowFactory"/>
-    </extensions>
-
     <change-notes><![CDATA[
       <ul>
         <li>Get github repositories from the network.</li>

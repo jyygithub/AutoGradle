@@ -91,7 +91,7 @@ public class HomeDialog extends DialogWrapper implements DocumentListener, Mouse
     }
 
     private void getAll() {
-        new OkHttpClient().newCall(new Request.Builder().url("http://jiangyy.cn:4903/v1/autogradle/repository").get().build())
+        new OkHttpClient().newCall(new Request.Builder().url("https://95factory.com/v1/autogradle/repository").get().build())
                 .enqueue(new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
