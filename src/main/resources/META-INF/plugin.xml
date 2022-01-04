@@ -7,15 +7,6 @@
         <p><b>Get github repositories which are widely used while developing, and then 'implementation' quickly.</b></p>
         <p><b>获取常用的Github开源库，并快速进行implementation</b></p>
         <br/>
-        <p>
-        <b>
-        <a href="https://plugins.jetbrains.com/plugin/12061-autogradle">Website</a> |
-        <a href="https://www.github.com/jyygithub/AutoGradle">GitHub</a> |
-        <a href="https://www.github.com/jyygithub/AutoGradle/issues">Issues</a> |
-        <a href="https://plugins.jetbrains.com/plugin/12061-autogradle/support-donate">Donate</a>
-        </b>
-        </p>
-        <br/>
         <ul>
             <li>Ctrl + Alt + 5</li>
             <li>Right Click Menu</li>

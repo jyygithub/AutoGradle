@@ -1,7 +1,8 @@
-package ui.home
+package ui.table
 
 import com.intellij.ui.table.JBTable
 import icons.Icons
+import ui.widget.JIconPanel
 import java.awt.Component
 import javax.swing.AbstractCellEditor
 import javax.swing.JTable
