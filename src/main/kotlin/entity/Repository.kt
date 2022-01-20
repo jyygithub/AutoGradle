@@ -7,6 +7,8 @@ data class Repository(
     val name: String,
     val nickname: String,
     val remark: String,
+    val tag: String?,
+    var tagId: Int = 0,
     val user: String,
     val version: String,
     var warehouse: String?

@@ -5,7 +5,7 @@ import javax.swing.table.AbstractTableModel
 
 class HomeTableModel(private val repositories: MutableList<Repository>) : AbstractTableModel() {
 
-    private val mColumnNames = mutableListOf("", "Repository", "Current Version", "Custom Version", "")
+    private val mColumnNames = mutableListOf("", "Repository", "Current Version", "Custom Version", "TAG", "")
 
     override fun getRowCount(): Int {
         return repositories.size
@@ -33,7 +33,8 @@ class HomeTableModel(private val repositories: MutableList<Repository>) : Abstra
             1 -> repositories[rowIndex].nickname
             2 -> repositories[rowIndex].version
             3 -> repositories[rowIndex].customVersion.orEmpty()
-            4 -> repositories[rowIndex].warehouse.orEmpty()
+            4 -> repositories[rowIndex].tag.orEmpty()
+            5 -> repositories[rowIndex].warehouse.orEmpty()
             else -> ""
         }
     }
@@ -42,7 +43,7 @@ class HomeTableModel(private val repositories: MutableList<Repository>) : Abstra
         when (columnIndex) {
             0 -> repositories[rowIndex].isChoose = value as Boolean
             3 -> repositories[rowIndex].customVersion = value as String?
-            4 -> repositories[rowIndex].warehouse = value as String?
+            5 -> repositories[rowIndex].warehouse = value as String?
         }
         fireTableCellUpdated(rowIndex, columnIndex)
     }
