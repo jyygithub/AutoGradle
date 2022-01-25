@@ -31,9 +31,9 @@ class HomeTableModel(private val repositories: MutableList<Repository>) : Abstra
         return when (columnIndex) {
             0 -> repositories[rowIndex].isChoose
             1 -> repositories[rowIndex].nickname
-            2 -> repositories[rowIndex].version
+            2 -> repositories[rowIndex].version.orEmpty()
             3 -> repositories[rowIndex].customVersion.orEmpty()
-            4 -> repositories[rowIndex].warehouse.orEmpty()
+            4 -> repositories[rowIndex].icon.orEmpty()
             else -> ""
         }
     }
@@ -42,7 +42,7 @@ class HomeTableModel(private val repositories: MutableList<Repository>) : Abstra
         when (columnIndex) {
             0 -> repositories[rowIndex].isChoose = value as Boolean
             3 -> repositories[rowIndex].customVersion = value as String?
-            4 -> repositories[rowIndex].warehouse = value as String?
+            4 -> repositories[rowIndex].icon = value as String?
         }
         fireTableCellUpdated(rowIndex, columnIndex)
     }

@@ -1,7 +1,6 @@
 package ui.dialog
 
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.command.WriteCommandAction
@@ -11,8 +10,10 @@ import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.layout.panel
 import com.intellij.ui.table.JBTable
 import com.intellij.util.ui.JBDimension
+import entity.RepoRepo
 import entity.Repository
 import entity.Tag
+import entity.TagRepo
 import okhttp3.*
 import org.jetbrains.annotations.Nullable
 import ui.table.HomeTableModel
@@ -114,36 +115,35 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
     }
 
     private fun listRepository() {
-        OkHttpClient().newCall(Request.Builder().url("http://localhost:12125/v1/autogradle/repository").get().build())
+        OkHttpClient().newCall(Request.Builder().url("http://localhost:12125/v2/autogradle/repository").get().build())
             .enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
 
                 override fun onResponse(call: Call, response: Response) {
 
-                    originalData = Gson().fromJson(
-                        response.body!!.string(), object : TypeToken<MutableList<Repository?>?>() {}.type
-                    )
+                    Gson().fromJson<RepoRepo>(response.body!!.string(), RepoRepo::class.java)?.let { result ->
+                        originalData = result.data
+                        repositoryArrayList.clear()
+                        repositoryArrayList.addAll(originalData)
+                        table.updateUI()
+                    }
 
-                    repositoryArrayList.clear()
-                    repositoryArrayList.addAll(originalData)
-                    table.updateUI()
                 }
             })
     }
 
     private fun listRepositoryTag() {
         OkHttpClient().newCall(
-            Request.Builder().url("http://localhost:12125/v1/autogradle/repository/tag").get().build()
+            Request.Builder().url("http://localhost:12125/v2/autogradle/repository/tag").get().build()
         )
             .enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
 
                 override fun onResponse(call: Call, response: Response) {
-                    Gson().fromJson<MutableList<Tag>>(
-                        response.body!!.string(), object : TypeToken<MutableList<Tag?>?>() {}.type
-                    )?.let { result ->
+
+                    Gson().fromJson<TagRepo>(response.body!!.string(), TagRepo::class.java)?.let { result ->
                         comboBox.removeAllItems()
-                        result.forEach {
+                        result.data.forEach {
                             comboBox.addItem(it)
                         }
                     }
@@ -172,7 +172,7 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
             tagId > 1 && input.isNullOrBlank() -> {
                 for (i in originalData.indices) {
                     val item = originalData[i]
-                    if (tagId == item.tag_id) {
+                    if (tagId == item.tagId) {
                         repositoryArrayList.add(originalData[i])
                     }
                 }
@@ -188,7 +188,7 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
             tagId > 1 && !input.isNullOrBlank() -> {
                 for (i in originalData.indices) {
                     val item = originalData[i]
-                    if (item.name.toLowerCase().contains(input) && tagId == item.tag_id) {
+                    if (item.name.toLowerCase().contains(input) && tagId == item.tagId) {
                         repositoryArrayList.add(originalData[i])
                     }
                 }
