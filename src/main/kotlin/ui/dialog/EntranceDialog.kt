@@ -15,7 +15,7 @@ import entity.Repository
 import entity.Tag
 import okhttp3.*
 import org.jetbrains.annotations.Nullable
-import ui.home.HomeTableModel
+import ui.table.HomeTableModel
 import ui.table.IconColumn
 import utils.Utils.inset
 import utils.Utils.startUri
@@ -110,7 +110,7 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
         table.rowHeight = 36
         table.fillsViewportHeight = true
         table.addMouseListener(this)
-        IconColumn(table, 5)
+        IconColumn(table, 4)
     }
 
     private fun listRepository() {
@@ -164,15 +164,36 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
 
     private fun search(tagId: Int, input: String?) {
         repositoryArrayList.clear()
-        if (input.isNullOrBlank()) {
-            repositoryArrayList.addAll(originalData)
-        } else {
-            for (i in originalData.indices) {
-                val item = originalData[i]
-                if (item.name.toLowerCase().contains(input) && item.tagId == tagId) {
-                    repositoryArrayList.add(originalData[i])
+
+        when {
+            tagId <= 1 && input.isNullOrBlank() -> {
+                repositoryArrayList.addAll(originalData)
+            }
+            tagId > 1 && input.isNullOrBlank() -> {
+                for (i in originalData.indices) {
+                    val item = originalData[i]
+                    if (tagId == item.tag_id) {
+                        repositoryArrayList.add(originalData[i])
+                    }
                 }
             }
+            tagId <= 1 && !input.isNullOrBlank() -> {
+                for (i in originalData.indices) {
+                    val item = originalData[i]
+                    if (item.name.toLowerCase().contains(input)) {
+                        repositoryArrayList.add(originalData[i])
+                    }
+                }
+            }
+            tagId > 1 && !input.isNullOrBlank() -> {
+                for (i in originalData.indices) {
+                    val item = originalData[i]
+                    if (item.name.toLowerCase().contains(input) && tagId == item.tag_id) {
+                        repositoryArrayList.add(originalData[i])
+                    }
+                }
+            }
+            else -> Unit
         }
         table.updateUI()
     }
@@ -205,7 +226,7 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
         val row = table.rowAtPoint(mouseEvent!!.point)
         val col = table.columnAtPoint(mouseEvent.point)
         when (col) {
-            5 -> startUri(repositoryArrayList[row])
+            4 -> startUri(repositoryArrayList[row])
             else -> {
             }
         }
