@@ -1,4 +1,4 @@
-package ui.widget
+package com.jiangyy.autogradle.ui
 
 import javax.swing.Icon
 import javax.swing.JLabel

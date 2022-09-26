@@ -1,8 +1,8 @@
-package action
+package com.jiangyy.autogradle.action
 
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import ui.dialog.EntranceDialog
+import com.jiangyy.autogradle.ui.EntranceDialog
 
 class AutoGradleAction : AnAction() {
 

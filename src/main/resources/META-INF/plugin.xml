@@ -1,43 +1,46 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
     <id>com.jiangyy.auto-gradle</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
     <name>AutoGradle</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor email="jiangyychn@gmail.com" url="https://www.github.com/jyygithub/">jyygithub</vendor>
 
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-        <p><b>Get github repositories which are widely used while developing, and then 'implementation' quickly.</b></p>
-        <p><b>获取常用的Github开源库，并快速进行implementation</b></p>
-        <br/>
+        <p>Get libraries and implementation quickly.</p>
         <ul>
             <li>Ctrl + Alt + 5</li>
-            <li>Right Click Menu</li>
+            <li>Right click</li>
             <li>Tool -> AutoGradle</li>
-            <li>Click the button below</li>
+            <li>Click icon in navigation bar</li>
         </ul>
     ]]></description>
 
-    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
-    <depends>com.intellij.modules.java</depends>
-
     <change-notes><![CDATA[
       <ul>
-        <li>Get github repositories from the network.</li>
-        <li>Add search.</li>
+        <li>Add repository tag.</li>
+        <li>Add java and kotlin mode.</li>
         <li>Fix bug.</li>
-      </ul>
-      <ul>
-        <li>通过网络请求获取Repository</li>
-        <li>增加搜索</li>
-        <li>修复BUG</li>
       </ul>
     ]]></change-notes>
 
-    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-    <idea-version since-build="193.6911"/>
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+<!--    <depends>com.intellij.modules.platform</depends>-->
+    <depends>com.intellij.java</depends>
+    <depends>com.intellij.modules.platform</depends>
 
     <actions>
-        <action class="action.AutoGradleAction" id="JyyPlugin.AutoGradleAction"
+        <action class="com.jiangyy.autogradle.action.AutoGradleAction" id="JyyPlugin.AutoGradleAction"
                 text="Auto Gradle" description="auto gradle"
-                icon="Icons.PluginIcon">
+                icon="/META-INF/pluginIcon.svg">
             <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
             <add-to-group group-id="ToolsMenu" anchor="last"/>
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
@@ -46,4 +49,5 @@
             <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="control alt NUMPAD5" replace-all="true"/>
         </action>
     </actions>
+
 </idea-plugin>
