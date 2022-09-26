@@ -5,16 +5,17 @@
 [![Version](https://img.shields.io/badge/version-1.3.0-lightgrey.svg)](https://plugins.jetbrains.com/plugin/12061-autogradle)
 ![Support](https://img.shields.io/badge/support-Android%20Studio-green.svg)
 
-## A auto import gradle project plugin.
+## Get libraries and implementation quickly.
 
 ## Usage
 
 - Ctrl + Alt + 5
+- Right click
 - Tool -> AutoGradle
-- Click the button below
+- Click icon in navigation bar
 
-![toolbar_logo](http://qiniu.jiangyy.cn//plugin/AutoGradle/img/toolbar_logo.png)
+![navigation bar](http://qiniu.jiangyy.cn//plugin/AutoGradle/img/toolbar_logo.png)
 
 ## Screenshot
 
-![home_dialog](http://qiniu.jiangyy.cn//plugin/AutoGradle/img/1.2.0/home.png)
+![home_dialog](https://plugins.jetbrains.com/files/12061/screenshot_b391f5b9-1f46-477f-b794-2775d4512010)
