@@ -223,17 +223,29 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
 
     private fun search(input: String?, key: String?) {
         bindData.clear()
-        if (input.isNullOrBlank() && key.isNullOrBlank()) {
-            bindData.addAll(originalData)
-        } else {
-            for (i in originalData.indices) {
-                val item = originalData[i]
-                if (
-                    item.nickname.orEmpty().lowercase().contains(input.orEmpty())
-                    &&
-                    item.key.orEmpty().lowercase() == key.orEmpty().lowercase()
-                ) {
-                    bindData.add(originalData[i])
+        when {
+            input.isNullOrBlank() && key.isNullOrBlank() -> bindData.addAll(originalData)
+            key.isNullOrBlank() -> {
+                for (i in originalData.indices) {
+                    val item = originalData[i]
+                    if (
+                        item.nickname.orEmpty().lowercase().contains(input.orEmpty())
+                    ) {
+                        bindData.add(originalData[i])
+                    }
+                }
+            }
+
+            else -> {
+                for (i in originalData.indices) {
+                    val item = originalData[i]
+                    if (
+                        item.nickname.orEmpty().lowercase().contains(input.orEmpty())
+                        &&
+                        item.key.orEmpty().lowercase() == key.orEmpty().lowercase()
+                    ) {
+                        bindData.add(originalData[i])
+                    }
                 }
             }
         }
