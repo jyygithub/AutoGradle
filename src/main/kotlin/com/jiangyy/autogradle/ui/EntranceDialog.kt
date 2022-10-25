@@ -16,7 +16,6 @@ import com.jiangyy.autogradle.entity.Repository
 import com.jiangyy.autogradle.utils.orDefault
 import okhttp3.*
 import org.jetbrains.annotations.Nullable
-import ui.table.IconColumn
 import java.awt.Desktop
 import java.awt.Dimension
 import java.awt.GridLayout
@@ -89,26 +88,20 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
             comboBox.selectedIndex = 0
             (table.model as HomeTableModel).updateLanguage(isJava)
         }
+
+        val keys = arrayOf(
+            "All", "Androidx", "Cache", "Chart", "CustomView", "Debug", "Dialog", "Http",
+            "Image", "Json", "Kit", "Log", "Permission", "Picker", "RecyclerView", "Subscribe",
+            "WebView"
+        )
+
         comboBox = ComboBox<String>().apply {
-            addItem("All")
-            addItem("Androidx")
-            addItem("Cache")
-            addItem("Chart")
-            addItem("CustomView")
-            addItem("Debug")
-            addItem("Dialog")
-            addItem("Http")
-            addItem("Image")
-            addItem("Json")
-            addItem("Kit")
-            addItem("Log")
-            addItem("Permission")
-            addItem("Picker")
-            addItem("RecyclerView")
-            addItem("Subscribe")
-            addItem("WebView")
+            for (keyItem in keys) {
+                addItem(keyItem)
+            }
         }
         comboBox.addItemListener(this)
+
         return panel {
             row {
                 comboBox()
@@ -181,9 +174,9 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
     }
 
     override fun mouseClicked(mouseEvent: MouseEvent?) {
-        val row = table.rowAtPoint(mouseEvent!!.point)
-        val col = table.columnAtPoint(mouseEvent.point)
-        when (col) {
+        if (mouseEvent == null) return
+        val row = table.rowAtPoint(mouseEvent.point)
+        when (table.columnAtPoint(mouseEvent.point)) {
             4 -> startUri(bindData[row])
             else -> Unit
         }
@@ -297,7 +290,7 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
         OkHttpClient().newCall(
             Request.Builder()
                 .addHeader("factory-api-version", "v2.0")
-                .url("https://95factory.com/autogradle/repository").get().build()
+                .url("https://plugins.95factory.com/api/autogradle/repository").get().build()
         ).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {}
 

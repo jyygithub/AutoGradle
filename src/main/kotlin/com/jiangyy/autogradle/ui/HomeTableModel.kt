@@ -40,7 +40,7 @@ class HomeTableModel(private val repositories: MutableList<Repository>) : Abstra
         return when (columnIndex) {
             0 -> repositories[rowIndex].isChoose.orDefault()
             1 -> repositories[rowIndex].nickname.orEmpty()
-            2 -> if (isJava) repositories[rowIndex].version.orEmpty() else repositories[rowIndex].version.orEmpty()
+            2 -> repositories[rowIndex].version.orEmpty()
             3 -> repositories[rowIndex].customVersion.orEmpty()
             4 -> repositories[rowIndex].urlType.orZero()
             else -> ""
