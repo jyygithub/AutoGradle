@@ -1,6 +1,6 @@
 <p align="center">
   <a target="_blank">
-    <img width="128" src="https://github.com/jyygithub/AutoGradle/blob/main/src/main/resources/META-INF/pluginIcon.svg" alt="logo">
+    <img width="128" src="https://raw.githubusercontent.com/jyygithub/AutoGradle/d05df84cdf71cdb2d107cd179090ad949a20ee33/src/main/resources/META-INF/pluginIcon.svg" alt="logo">
   </a>
 </p>
 <p align="center">
