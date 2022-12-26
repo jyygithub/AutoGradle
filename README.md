@@ -1,11 +1,15 @@
-# AutoGradle
-
-[![Github](https://img.shields.io/badge/github-AutoGradle-blue.svg)](https://www.github.com/jyygithub/AutoGradle)
-[![Issue](https://img.shields.io/badge/issue-AutoGradle-red.svg)](https://github.com/jyygithub/AutoGradle/issues)
-[![Version](https://img.shields.io/badge/version-1.3.1-lightgrey.svg)](https://plugins.jetbrains.com/plugin/12061-autogradle)
-![Support](https://img.shields.io/badge/support-Android%20Studio-green.svg)
-
-## Get libraries and implementation quickly.
+<p align="center">
+  <a target="_blank">
+    <img width="128" src="https://github.com/jyygithub/AutoGradle/blob/main/src/main/resources/META-INF/pluginIcon.svg" alt="logo">
+  </a>
+</p>
+<p align="center">
+    <img src="https://img.shields.io/github/v/release/jyygithub/AutoGradle" alt="release">
+    <img src="https://img.shields.io/github/repo-size/jyygithub/AutoGradle?color=orange&label=size" alt="size">
+</p>
+<h2 align="center">
+  Get libraries and implementation quickly.
+</h2>
 
 ## Usage
 
