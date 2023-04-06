@@ -8,7 +8,8 @@ import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.components.JBRadioButton
 import com.intellij.ui.components.JBScrollPane
-import com.intellij.ui.layout.panel
+import com.intellij.ui.dsl.builder.panel
+import com.intellij.ui.dsl.gridLayout.HorizontalAlign
 import com.intellij.ui.table.JBTable
 import com.intellij.util.ui.JBDimension
 import com.jiangyy.autogradle.entity.ApiResponse
@@ -27,7 +28,6 @@ import java.io.IOException
 import java.net.URI
 import javax.swing.JComponent
 import javax.swing.JPanel
-import javax.swing.JTextField
 import javax.swing.event.DocumentEvent
 import javax.swing.event.DocumentListener
 import javax.swing.text.BadLocationException
@@ -104,16 +104,14 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
 
         return panel {
             row {
-                comboBox()
-                kotlinButton()
-                javaButton()
+                cell(comboBox)
+                cell(kotlinButton)
+                cell(javaButton)
             }
         }
     }
 
     override fun createCenterPanel(): JComponent {
-        val searchTextField = JTextField()
-        searchTextField.document.addDocumentListener(this)
         createTable()
         val tablePanel = JPanel(GridLayout(1, 0))
         val scrollPane = JBScrollPane(table)
@@ -121,10 +119,14 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
 
         val r = panel {
             row {
-                searchTextField()
+                textField()
+                    .horizontalAlign(HorizontalAlign.FILL)
+                    .apply {
+                        component.document.addDocumentListener(this@EntranceDialog)
+                    }
             }
             row {
-                scrollPane()
+                cell(scrollPane)
             }
         }
 
