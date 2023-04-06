@@ -11,7 +11,7 @@ import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.layout.panel
 import com.intellij.ui.table.JBTable
 import com.intellij.util.ui.JBDimension
-import com.jiangyy.autogradle.entity.Reponse
+import com.jiangyy.autogradle.entity.ApiResponse
 import com.jiangyy.autogradle.entity.Repository
 import com.jiangyy.autogradle.utils.orDefault
 import okhttp3.*
@@ -287,21 +287,21 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
     }
 
     private fun listRepos() {
-        OkHttpClient().newCall(
-            Request.Builder()
-                .addHeader("factory-api-version", "v2.0")
-                .url("https://plugins.95factory.com/api/autogradle/repository").get().build()
-        ).enqueue(object : Callback {
+        val request = Request.Builder()
+            .addHeader("factory-api-version", "v2.0")
+            .url("https://plugins.95factory.com/api/autogradle/repository")
+            .get()
+            .build()
+        OkHttpClient().newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {}
 
             override fun onResponse(call: Call, response: Response) {
-                Gson().fromJson<Reponse>(response.body?.string(), Reponse::class.java)?.let { result ->
+                Gson().fromJson(response.body?.string(), ApiResponse::class.java)?.let { result ->
                     originalData = result.data
                     bindData.clear()
                     bindData.addAll(result.data)
                     table.updateUI()
                 }
-
             }
         })
     }
