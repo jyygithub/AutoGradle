@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.jiangyy"
-version = "1.3.2"
+version = prop("publishVersion")
 
 repositories {
     mavenCentral()
@@ -19,7 +19,7 @@ dependencies {
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-    version.set("2021.3.3")
+    version.set(prop("ideVersion"))
     type.set("IC") // Target IDE Platform
 
     plugins.set(listOf("com.intellij.java"))
@@ -36,17 +36,21 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("213")
-        untilBuild.set("232.*")
+        sinceBuild.set(prop("sinceBuild"))
+        untilBuild.set(prop("untilBuild"))
     }
 
     signPlugin {
-        certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
-        privateKey.set(System.getenv("PRIVATE_KEY"))
-        password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
+        certificateChainFile.set(file("certificate/chain.crt"))
+        privateKeyFile.set(file("certificate/private.pem"))
+        password.set(prop("PRIVATE_KEY_PASSWORD"))
     }
 
     publishPlugin {
-        token.set(System.getenv("PUBLISH_TOKEN"))
+        token.set(prop("PUBLISH_TOKEN"))
     }
 }
+
+fun prop(name: String): String =
+        extra.properties[name] as? String
+                ?: error("Property `$name` is not defined in gradle.properties")
