@@ -8,8 +8,7 @@ import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.components.JBRadioButton
 import com.intellij.ui.components.JBScrollPane
-import com.intellij.ui.dsl.builder.panel
-import com.intellij.ui.dsl.gridLayout.HorizontalAlign
+import com.intellij.ui.layout.panel
 import com.intellij.ui.table.JBTable
 import com.intellij.util.ui.JBDimension
 import com.jiangyy.autogradle.entity.ApiResponse
@@ -28,12 +27,13 @@ import java.io.IOException
 import java.net.URI
 import javax.swing.JComponent
 import javax.swing.JPanel
+import javax.swing.JTextField
 import javax.swing.event.DocumentEvent
 import javax.swing.event.DocumentListener
 import javax.swing.text.BadLocationException
 
 class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper(true), DocumentListener,
-    MouseListener, ItemListener {
+        MouseListener, ItemListener {
 
     private var bindData = mutableListOf<Repository>()
     private var originalData = mutableListOf<Repository>()
@@ -90,9 +90,9 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
         }
 
         val keys = arrayOf(
-            "All", "Androidx", "Cache", "Chart", "CustomView", "Debug", "Dialog", "Http",
-            "Image", "Json", "Kit", "Log", "Permission", "Picker", "RecyclerView", "Subscribe",
-            "WebView"
+                "All", "Androidx", "Cache", "Chart", "CustomView", "Debug", "Dialog", "Http",
+                "Image", "Json", "Kit", "Log", "Permission", "Picker", "RecyclerView", "Subscribe",
+                "WebView"
         )
 
         comboBox = ComboBox<String>().apply {
@@ -104,14 +104,16 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
 
         return panel {
             row {
-                cell(comboBox)
-                cell(kotlinButton)
-                cell(javaButton)
+                comboBox()
+                kotlinButton()
+                javaButton()
             }
         }
     }
 
     override fun createCenterPanel(): JComponent {
+        val searchTextField = JTextField()
+        searchTextField.document.addDocumentListener(this)
         createTable()
         val tablePanel = JPanel(GridLayout(1, 0))
         val scrollPane = JBScrollPane(table)
@@ -119,14 +121,10 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
 
         val r = panel {
             row {
-                textField()
-                    .horizontalAlign(HorizontalAlign.FILL)
-                    .apply {
-                        component.document.addDocumentListener(this@EntranceDialog)
-                    }
+                searchTextField()
             }
             row {
-                cell(scrollPane)
+                scrollPane()
             }
         }
 
@@ -224,7 +222,7 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
                 for (i in originalData.indices) {
                     val item = originalData[i]
                     if (
-                        item.nickname.orEmpty().lowercase().contains(input.orEmpty())
+                            item.nickname.orEmpty().lowercase().contains(input.orEmpty())
                     ) {
                         bindData.add(originalData[i])
                     }
@@ -235,9 +233,9 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
                 for (i in originalData.indices) {
                     val item = originalData[i]
                     if (
-                        item.nickname.orEmpty().lowercase().contains(input.orEmpty())
-                        &&
-                        item.key.orEmpty().lowercase() == key.orEmpty().lowercase()
+                            item.nickname.orEmpty().lowercase().contains(input.orEmpty())
+                            &&
+                            item.key.orEmpty().lowercase() == key.orEmpty().lowercase()
                     ) {
                         bindData.add(originalData[i])
                     }
@@ -289,21 +287,21 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
     }
 
     private fun listRepos() {
-        val request = Request.Builder()
-            .addHeader("factory-api-version", "v2.0")
-            .url("https://plugins.95factory.com/api/autogradle/repository")
-            .get()
-            .build()
-        OkHttpClient().newCall(request).enqueue(object : Callback {
+        OkHttpClient().newCall(
+                Request.Builder()
+                        .addHeader("factory-api-version", "v2.0")
+                        .url("https://plugins.95factory.com/api/autogradle/repository").get().build()
+        ).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {}
 
             override fun onResponse(call: Call, response: Response) {
-                Gson().fromJson(response.body?.string(), ApiResponse::class.java)?.let { result ->
+                Gson().fromJson<ApiResponse>(response.body?.string(), ApiResponse::class.java)?.let { result ->
                     originalData = result.data
                     bindData.clear()
                     bindData.addAll(result.data)
                     table.updateUI()
                 }
+
             }
         })
     }
