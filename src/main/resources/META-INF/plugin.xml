@@ -38,7 +38,7 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.jiangyy.autogradle.ui.EntranceToolWIndow" id="Auto Repository"
+        <toolWindow factoryClass="com.jiangyy.autogradle.ui.EntranceToolWindow" id="Auto Repository"
                     icon="/META-INF/pluginIcon.svg"/>
     </extensions>
 

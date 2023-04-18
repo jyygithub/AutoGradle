@@ -7,7 +7,6 @@ import com.jiangyy.autogradle.utils.orZero
 import java.awt.Component
 import javax.swing.JList
 import javax.swing.ListCellRenderer
-import javax.swing.border.EmptyBorder
 
 class ToolWindowCellRenderer : ListCellRenderer<Repository> {
 
@@ -15,18 +14,19 @@ class ToolWindowCellRenderer : ListCellRenderer<Repository> {
 
     override fun getListCellRendererComponent(list: JList<out Repository>?, value: Repository?, index: Int, isSelected: Boolean, cellHasFocus: Boolean): Component {
         return panel {
-            row {
-                label(value?.name.orEmpty())
+            group(value?.nickname.orEmpty()) {
+                row {
+                    browserLink("github", "https://www.jetbrains.com")
+                }
+                row {
+                    comment(mavenTypes[value?.mavenType.orZero()])
+                }
+                row {
+                    label("""implementation '${value?.groupId}:${value?.artifactId}:${value?.version}'""").apply {
+                        component.background = JBColor.YELLOW
+                    }
+                }
             }
-            row {
-                comment(mavenTypes[value?.mavenType.orZero()])
-            }
-            row {
-                label("""implementation '${value?.groupId}:${value?.artifactId}:${value?.version}'""")
-            }
-        }.apply {
-            background = JBColor.decode("#2d2f31")
-            border = EmptyBorder(5, 5, 5, 5)
         }
     }
 

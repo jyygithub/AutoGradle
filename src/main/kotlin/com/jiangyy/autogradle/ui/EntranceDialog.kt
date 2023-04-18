@@ -118,10 +118,6 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
 
     override fun createCenterPanel(): JComponent {
         createTable()
-        val tablePanel = JPanel(GridLayout(1, 0))
-        val scrollPane = JBScrollPane(table)
-        tablePanel.add(scrollPane)
-
         val searchTextField = JTextField()
         searchTextField.document.addDocumentListener(this)
 
@@ -130,7 +126,7 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
                 searchTextField()
             }
             row {
-                scrollPane()
+                scrollPane(table)
             }
         }
 

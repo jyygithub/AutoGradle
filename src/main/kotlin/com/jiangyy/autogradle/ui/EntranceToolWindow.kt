@@ -6,17 +6,16 @@ import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
 import com.intellij.ui.components.JBList
 import com.intellij.ui.content.ContentFactory
-import com.intellij.ui.dsl.builder.panel
-import com.intellij.ui.dsl.gridLayout.HorizontalAlign
 import com.jiangyy.autogradle.entity.ApiResponse
 import com.jiangyy.autogradle.entity.Repository
-import com.jiangyy.autogradle.ui.table.ToolWindowModel
 import com.jiangyy.autogradle.ui.table.ToolWindowCellRenderer
+import com.jiangyy.autogradle.ui.table.ToolWindowModel
 import okhttp3.*
 import java.io.IOException
+import javax.swing.JTextField
 import javax.swing.border.EmptyBorder
 
-class EntranceToolWIndow : ToolWindowFactory {
+class EntranceToolWindow : ToolWindowFactory {
 
     private var bindData = mutableListOf<Repository>()
     private var originalData = mutableListOf<Repository>()
@@ -31,15 +30,26 @@ class EntranceToolWIndow : ToolWindowFactory {
         list = JBList(ToolWindowModel(bindData))
         list.cellRenderer = ToolWindowCellRenderer()
 
-        val t = panel {
+//        val t = panel {
+//            row {
+//                textField().horizontalAlign(HorizontalAlign.FILL)
+//            }
+//            row {
+//                cell(list).horizontalAlign(HorizontalAlign.FILL)
+//            }
+//        }
+        val searchTextField = JTextField()
+        val t = com.intellij.ui.layout.panel {
             row {
-                textField().horizontalAlign(HorizontalAlign.FILL)
+                searchTextField()
             }
             row {
-                cell(list).horizontalAlign(HorizontalAlign.FILL)
+                scrollPane(list).apply {
+                    component.border = null
+                }
             }
         }
-        t.border = EmptyBorder(5, 5, 5, 5)
+        t.border = EmptyBorder(20, 20, 20, 20)
         val content = contentFactory.createContent(t, "", false)
         toolWindow.contentManager.addContent(content)
     }
