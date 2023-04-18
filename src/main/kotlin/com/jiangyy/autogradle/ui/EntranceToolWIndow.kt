@@ -16,7 +16,7 @@ import okhttp3.*
 import java.io.IOException
 import javax.swing.border.EmptyBorder
 
-class SearchFactory : ToolWindowFactory {
+class EntranceToolWIndow : ToolWindowFactory {
 
     private var bindData = mutableListOf<Repository>()
     private var originalData = mutableListOf<Repository>()
