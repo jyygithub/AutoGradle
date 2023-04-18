@@ -33,9 +33,14 @@
 
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
-<!--    <depends>com.intellij.modules.platform</depends>-->
+    <!--    <depends>com.intellij.modules.platform</depends>-->
     <depends>com.intellij.java</depends>
     <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow factoryClass="com.jiangyy.autogradle.ui.SearchFactory" id="Auto Repository"
+                    icon="/META-INF/pluginIcon.svg"/>
+    </extensions>
 
     <actions>
         <action class="com.jiangyy.autogradle.action.AutoGradleAction" id="JyyPlugin.AutoGradleAction"
