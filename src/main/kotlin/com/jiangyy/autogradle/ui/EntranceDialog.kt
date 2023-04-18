@@ -13,9 +13,11 @@ import com.intellij.ui.table.JBTable
 import com.intellij.util.ui.JBDimension
 import com.jiangyy.autogradle.entity.ApiResponse
 import com.jiangyy.autogradle.entity.Repository
+import com.jiangyy.autogradle.entity.XMLVersion
 import com.jiangyy.autogradle.utils.orDefault
 import okhttp3.*
 import org.jetbrains.annotations.Nullable
+import org.json.XML
 import java.awt.Desktop
 import java.awt.Dimension
 import java.awt.GridLayout
@@ -102,24 +104,26 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
         }
         comboBox.addItemListener(this)
 
-        return panel {
+        return com.intellij.ui.dsl.builder.panel {
             row {
-                comboBox()
-                kotlinButton()
-                javaButton()
+                cell(comboBox)
+                cell(kotlinButton)
+                cell(javaButton)
             }
         }
+
     }
 
     override fun createCenterPanel(): JComponent {
-        val searchTextField = JTextField()
-        searchTextField.document.addDocumentListener(this)
         createTable()
         val tablePanel = JPanel(GridLayout(1, 0))
         val scrollPane = JBScrollPane(table)
         tablePanel.add(scrollPane)
 
-        val r = panel {
+        val searchTextField = JTextField()
+        searchTextField.document.addDocumentListener(this)
+
+        return panel {
             row {
                 searchTextField()
             }
@@ -128,7 +132,18 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
             }
         }
 
-        return r
+//        return com.intellij.ui.dsl.builder.panel {
+//            row {
+//                textField().horizontalAlign(HorizontalAlign.FILL)
+//                        .apply {
+//                            component.document.addDocumentListener(this@EntranceDialog)
+//                        }
+//            }
+//            row {
+//                cell(scrollPane)
+////                cell(table).horizontalAlign(HorizontalAlign.FILL)
+//            }
+//        }
     }
 
     override fun itemStateChanged(e: ItemEvent?) {
@@ -177,7 +192,8 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
         if (mouseEvent == null) return
         val row = table.rowAtPoint(mouseEvent.point)
         when (table.columnAtPoint(mouseEvent.point)) {
-            4 -> startUri(bindData[row])
+//            4 -> startUri(bindData[row])
+            4 -> getLatestVersionFromMavenCentral(bindData[row])
             else -> Unit
         }
     }
@@ -304,6 +320,25 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
 
             }
         })
+    }
+
+    private fun getLatestVersionFromMavenCentral(repo: Repository) {
+        val builder = StringBuilder()
+        builder.append("https://repo1.maven.org/maven2/")
+        builder.append(repo.groupId.orEmpty().replace(".", "/"))
+        builder.append("/")
+        builder.append(repo.artifactId)
+        builder.append("/maven-metadata.xml")
+        OkHttpClient().newCall(Request.Builder().url(builder.toString()).get().build()).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {}
+
+            override fun onResponse(call: Call, response: Response) {
+                val xmlStr = XML.toJSONObject(response.body?.string().orEmpty()).toString()
+                val xmlVersion = Gson().fromJson(xmlStr, XMLVersion::class.java)
+                println("${xmlVersion.metadata.versioning.latest}")
+            }
+        })
+
     }
 
 }
