@@ -11,14 +11,13 @@ import javax.swing.ListCellRenderer
 class ToolWindowCellRenderer : ListCellRenderer<Repository> {
 
     val mavenTypes = listOf("mavenCentral()", "maven { url 'https://jitpack.io' }", "jCenter()", "google()")
+    val utlTypes = listOf("github", "android", "gitee", "gitlab", "url")
 
     override fun getListCellRendererComponent(list: JList<out Repository>?, value: Repository?, index: Int, isSelected: Boolean, cellHasFocus: Boolean): Component {
         return panel {
             group(value?.nickname.orEmpty()) {
                 row {
-                    browserLink("github", "https://www.jetbrains.com")
-                }
-                row {
+                    browserLink(utlTypes[value?.urlType.orZero()], value?.url.orEmpty())
                     comment(mavenTypes[value?.mavenType.orZero()])
                 }
                 row {
