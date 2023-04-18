@@ -1,4 +1,4 @@
-package com.jiangyy.autogradle.ui
+package com.jiangyy.autogradle.ui.table
 
 import com.jiangyy.autogradle.entity.Repository
 import com.jiangyy.autogradle.utils.orDefault

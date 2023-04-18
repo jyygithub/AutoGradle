@@ -14,6 +14,8 @@ import com.intellij.util.ui.JBDimension
 import com.jiangyy.autogradle.entity.ApiResponse
 import com.jiangyy.autogradle.entity.Repository
 import com.jiangyy.autogradle.entity.XMLVersion
+import com.jiangyy.autogradle.ui.table.HomeTableModel
+import com.jiangyy.autogradle.ui.table.IconColumn
 import com.jiangyy.autogradle.utils.orDefault
 import okhttp3.*
 import org.jetbrains.annotations.Nullable
@@ -192,8 +194,7 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
         if (mouseEvent == null) return
         val row = table.rowAtPoint(mouseEvent.point)
         when (table.columnAtPoint(mouseEvent.point)) {
-//            4 -> startUri(bindData[row])
-            4 -> getLatestVersionFromMavenCentral(bindData[row])
+            4 -> startUri(bindData[row])
             else -> Unit
         }
     }
