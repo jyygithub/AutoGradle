@@ -9,9 +9,9 @@ import com.intellij.ui.content.ContentFactory
 import com.jiangyy.autogradle.entity.ApiResponse
 import com.jiangyy.autogradle.entity.Repository
 import com.jiangyy.autogradle.ui.table.ToolWindowCellRenderer
-import com.jiangyy.autogradle.ui.table.ToolWindowModel
 import okhttp3.*
 import java.io.IOException
+import javax.swing.DefaultListModel
 import javax.swing.JTextField
 import javax.swing.ListSelectionModel
 import javax.swing.border.EmptyBorder
@@ -26,7 +26,7 @@ class EntranceToolWindow : ToolWindowFactory, DocumentListener {
 
     private lateinit var list: JBList<Repository>
 
-    private val model = ToolWindowModel()
+    private val model = DefaultListModel<Repository>()
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         val contentFactory = ContentFactory.SERVICE.getInstance()
@@ -34,8 +34,8 @@ class EntranceToolWindow : ToolWindowFactory, DocumentListener {
         listRepos()
 
         list = JBList(model)
-        list.cellRenderer = ToolWindowCellRenderer()
         list.selectionMode = ListSelectionModel.SINGLE_SELECTION
+        list.cellRenderer = ToolWindowCellRenderer()
 
         val searchTextField = JTextField()
         searchTextField.document.addDocumentListener(this)
