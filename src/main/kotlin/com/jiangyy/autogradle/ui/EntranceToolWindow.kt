@@ -29,7 +29,7 @@ class EntranceToolWindow : ToolWindowFactory, DocumentListener {
     private val model = DefaultListModel<Repository>()
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
-        val contentFactory = ContentFactory.SERVICE.getInstance()
+        val contentFactory = ContentFactory.getInstance()
 
         listRepos()
 
