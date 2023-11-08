@@ -7,7 +7,6 @@ import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.components.JBRadioButton
-import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.layout.panel
 import com.intellij.ui.table.JBTable
 import com.intellij.util.ui.JBDimension
@@ -22,7 +21,6 @@ import org.jetbrains.annotations.Nullable
 import org.json.XML
 import java.awt.Desktop
 import java.awt.Dimension
-import java.awt.GridLayout
 import java.awt.event.ItemEvent
 import java.awt.event.ItemListener
 import java.awt.event.MouseEvent
@@ -37,7 +35,7 @@ import javax.swing.event.DocumentListener
 import javax.swing.text.BadLocationException
 
 class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper(true), DocumentListener,
-        MouseListener, ItemListener {
+    MouseListener, ItemListener {
 
     private var bindData = mutableListOf<Repository>()
     private var originalData = mutableListOf<Repository>()
@@ -94,9 +92,9 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
         }
 
         val keys = arrayOf(
-                "All", "Androidx", "Cache", "Chart", "CustomView", "Debug", "Dialog", "Http",
-                "Image", "Json", "Kit", "Log", "Permission", "Picker", "RecyclerView", "Subscribe",
-                "WebView"
+            "All", "Androidx", "Cache", "Chart", "CustomView", "Debug", "Dialog", "Http",
+            "Image", "Json", "Kit", "Log", "Permission", "Picker", "RecyclerView", "Subscribe",
+            "WebView"
         )
 
         comboBox = ComboBox<String>().apply {
@@ -133,12 +131,13 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
 //        return com.intellij.ui.dsl.builder.panel {
 //            row {
 //                textField().horizontalAlign(HorizontalAlign.FILL)
-//                        .apply {
-//                            component.document.addDocumentListener(this@EntranceDialog)
-//                        }
+//                    .apply {
+//                        component.document.addDocumentListener(this@EntranceDialog)
+//                    }
 //            }
 //            row {
-//                cell(scrollPane)
+//                scrollCell(table)
+//                    .horizontalAlign(HorizontalAlign.FILL)
 ////                cell(table).horizontalAlign(HorizontalAlign.FILL)
 //            }
 //        }
@@ -235,7 +234,7 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
                 for (i in originalData.indices) {
                     val item = originalData[i]
                     if (
-                            item.nickname.orEmpty().lowercase().contains(input.orEmpty())
+                        item.nickname.orEmpty().lowercase().contains(input.orEmpty())
                     ) {
                         bindData.add(originalData[i])
                     }
@@ -246,9 +245,9 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
                 for (i in originalData.indices) {
                     val item = originalData[i]
                     if (
-                            item.nickname.orEmpty().lowercase().contains(input.orEmpty())
-                            &&
-                            item.key.orEmpty().lowercase() == key.orEmpty().lowercase()
+                        item.nickname.orEmpty().lowercase().contains(input.orEmpty())
+                        &&
+                        item.key.orEmpty().lowercase() == key.orEmpty().lowercase()
                     ) {
                         bindData.add(originalData[i])
                     }
@@ -278,11 +277,11 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
     private fun insertJava(repo: Repository): String {
         val usageVersion = if (repo.customVersion.isNullOrBlank()) repo.version else repo.customVersion
         return if (repo.compilerId.isNullOrBlank()) {
-            """${repo.dependenceMode} '${repo.groupId}:${repo.artifactIdJava}:${usageVersion}'
+            """${repo.dependenceMode}("${repo.groupId}:${repo.artifactIdJava}:${usageVersion}")
     """
         } else {
-            """${repo.dependenceMode} '${repo.groupId}:${repo.artifactIdJava}:${usageVersion}'
-    annotationProcessor '${repo.groupId}:${repo.compilerId}:${usageVersion}'
+            """${repo.dependenceMode}("${repo.groupId}:${repo.artifactIdJava}:${usageVersion}"
+    annotationProcessor("${repo.groupId}:${repo.compilerId}:${usageVersion}")
     """
         }
     }
@@ -290,20 +289,20 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
     private fun insertKotlin(repo: Repository): String {
         val usageVersion = if (repo.customVersion.isNullOrBlank()) repo.version else repo.customVersion
         return if (repo.compilerId.isNullOrBlank()) {
-            """${repo.dependenceMode} '${repo.groupId}:${repo.artifactId}:${usageVersion}'
+            """${repo.dependenceMode}("${repo.groupId}:${repo.artifactId}:${usageVersion}")
     """
         } else {
-            """${repo.dependenceMode} '${repo.groupId}:${repo.artifactId}:${usageVersion}'
-    kapt '${repo.groupId}:${repo.compilerId}:${usageVersion}'
+            """${repo.dependenceMode}("${repo.groupId}:${repo.artifactId}:${usageVersion}"
+    kapt("${repo.groupId}:${repo.compilerId}:${usageVersion}")
     """
         }
     }
 
     private fun listRepos() {
         OkHttpClient().newCall(
-                Request.Builder()
-                        .addHeader("factory-api-version", "v2.0")
-                        .url("https://plugins.95factory.com/api/autogradle/repository").get().build()
+            Request.Builder()
+                .addHeader("factory-api-version", "v2.0")
+                .url("https://plugins.95factory.com/api/autogradle/repository").get().build()
         ).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {}
 
