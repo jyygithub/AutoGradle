@@ -12,7 +12,6 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains:marketplace-zip-signer:0.1.8")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("org.json:json:20231013")
@@ -43,13 +42,13 @@ tasks {
     }
 
     signPlugin {
-        certificateChain.set(providers.environmentVariable("CERTIFICATE_CHAIN"))
-        privateKey.set(providers.environmentVariable("PRIVATE_KEY"))
-        password.set(providers.environmentVariable("PRIVATE_KEY_PASSWORD"))
+        certificateChainFile.set(file("certificate/chain.crt"))
+        privateKeyFile.set(file("certificate/private.pem"))
+        password.set(prop("PRIVATE_KEY_PASSWORD"))
     }
 
     publishPlugin {
-        token.set(providers.environmentVariable("PUBLISH_TOKEN"))
+        token.set(prop("PUBLISH_TOKEN"))
     }
 
 }
