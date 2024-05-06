@@ -12,7 +12,7 @@ class Repository(
     var dependenceMode: String?,
     var version: String?,
     var customVersion: String?,
-    var mavenType: Int?,// 0 - mavenCentral; 1 - jitpack; 2 - jCenter
+    var mavenType: Int?,// 0 - mavenCentral; 1 - jitpack; 2 - jCenter; 3 - androidx
     var urlType: Int?, // 0 - github; 1 - android; 2 - gitee; 3 - gitlab; 4 - other;
     var url: String?,
 )

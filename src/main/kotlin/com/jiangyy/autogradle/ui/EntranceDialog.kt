@@ -4,46 +4,45 @@ import com.google.gson.Gson
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.command.WriteCommandAction
-import com.intellij.openapi.ui.ComboBox
+import com.intellij.openapi.observable.properties.AtomicProperty
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.components.JBRadioButton
-import com.intellij.ui.components.JBScrollPane
-import com.intellij.ui.layout.panel
+import com.intellij.ui.dsl.builder.*
 import com.intellij.ui.table.JBTable
 import com.intellij.util.ui.JBDimension
 import com.jiangyy.autogradle.entity.ApiResponse
 import com.jiangyy.autogradle.entity.Repository
-import com.jiangyy.autogradle.utils.orDefault
+import com.jiangyy.autogradle.ui.table.HomeTableModel
+import com.jiangyy.autogradle.ui.table.IconColumn
 import okhttp3.*
 import org.jetbrains.annotations.Nullable
 import java.awt.Desktop
 import java.awt.Dimension
-import java.awt.GridLayout
-import java.awt.event.ItemEvent
-import java.awt.event.ItemListener
 import java.awt.event.MouseEvent
 import java.awt.event.MouseListener
 import java.io.IOException
 import java.net.URI
 import javax.swing.JComponent
 import javax.swing.JPanel
-import javax.swing.JTextField
 import javax.swing.event.DocumentEvent
 import javax.swing.event.DocumentListener
 import javax.swing.text.BadLocationException
 
+private enum class ChoseModuleType {
+    Kotlin, Groovy
+}
+
 class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper(true), DocumentListener,
-        MouseListener, ItemListener {
+    MouseListener {
+
+    private var _data = emptyList<Repository>()
 
     private var bindData = mutableListOf<Repository>()
-    private var originalData = mutableListOf<Repository>()
 
     private lateinit var table: JBTable
-    private lateinit var comboBox: ComboBox<String>
 
-    private var key: String? = null
     private var keyword: String? = null
-    private var isJava = false
+    private val chosenModuleType = AtomicProperty(ChoseModuleType.Kotlin)
 
     init {
         init()
@@ -52,6 +51,15 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
             JBDimension(800, 450).let {
                 this.preferredSize = it
                 this.minimumSize = it
+                this.maximumSize = it
+            }
+        }
+    }
+
+    private fun Cell<JBRadioButton>.applySelected(v: ChoseModuleType): Cell<JBRadioButton> {
+        return onChanged {
+            if (it.isSelected) {
+                chosenModuleType.set(v)
             }
         }
     }
@@ -66,81 +74,33 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
     }
 
     override fun createSouthAdditionalPanel(): JPanel {
-
-        val javaButton = JBRadioButton("Java")
-        val kotlinButton = JBRadioButton("Kotlin", true)
-
-        javaButton.addActionListener {
-            isJava = true
-            key = null
-            keyword = null
-            javaButton.isSelected = true
-            kotlinButton.isSelected = false
-            comboBox.selectedIndex = 0
-            (table.model as HomeTableModel).updateLanguage(isJava)
-        }
-        kotlinButton.addActionListener {
-            isJava = false
-            key = null
-            keyword = null
-            javaButton.isSelected = false
-            kotlinButton.isSelected = true
-            comboBox.selectedIndex = 0
-            (table.model as HomeTableModel).updateLanguage(isJava)
-        }
-
-        val keys = arrayOf(
-                "All", "Androidx", "Cache", "Chart", "CustomView", "Debug", "Dialog", "Http",
-                "Image", "Json", "Kit", "Log", "Permission", "Picker", "RecyclerView", "Subscribe",
-                "WebView"
-        )
-
-        comboBox = ComboBox<String>().apply {
-            for (keyItem in keys) {
-                addItem(keyItem)
-            }
-        }
-        comboBox.addItemListener(this)
-
         return panel {
-            row {
-                comboBox()
-                kotlinButton()
-                javaButton()
-            }
+            buttonsGroup {
+                twoColumnsRow(
+                    column1 = {
+                        radioButton("Kotlin", ChoseModuleType.Kotlin).applySelected(ChoseModuleType.Kotlin)
+                    },
+                    column2 = {
+                        radioButton("Groovy", ChoseModuleType.Groovy).applySelected(ChoseModuleType.Groovy)
+                    },
+                )
+            }.bind(chosenModuleType::get, chosenModuleType::set)
         }
+
     }
 
     override fun createCenterPanel(): JComponent {
-        val searchTextField = JTextField()
-        searchTextField.document.addDocumentListener(this)
         createTable()
-        val tablePanel = JPanel(GridLayout(1, 0))
-        val scrollPane = JBScrollPane(table)
-        tablePanel.add(scrollPane)
-
-        val r = panel {
+        return panel {
             row {
-                searchTextField()
+                textField().align(AlignX.FILL).apply {
+                    this.component.document.addDocumentListener(this@EntranceDialog)
+                }
             }
             row {
-                scrollPane()
-            }
+                scrollCell(table).align(Align.FILL)
+            }.resizableRow()
         }
-
-        return r
-    }
-
-    override fun itemStateChanged(e: ItemEvent?) {
-        if (e == null) return
-        if (e.stateChange == ItemEvent.SELECTED) {
-            key = if (comboBox.selectedIndex == 0) {
-                null
-            } else {
-                comboBox.getItemAt(comboBox.selectedIndex)
-            }
-        }
-        search(keyword, key)
     }
 
     private fun createTable() {
@@ -208,39 +168,22 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
         val document = documentEvent.document
         try {
             keyword = document.getText(0, document.length).lowercase()
-            search(keyword, key)
+            search(keyword)
         } catch (e: BadLocationException) {
             e.printStackTrace()
         }
     }
 
-    private fun search(input: String?, key: String?) {
+    private fun search(input: String?) {
         bindData.clear()
-        when {
-            input.isNullOrBlank() && key.isNullOrBlank() -> bindData.addAll(originalData)
-            key.isNullOrBlank() -> {
-                for (i in originalData.indices) {
-                    val item = originalData[i]
-                    if (
-                            item.nickname.orEmpty().lowercase().contains(input.orEmpty())
-                    ) {
-                        bindData.add(originalData[i])
-                    }
+        if (input.isNullOrBlank()) {
+            bindData.addAll(_data)
+        } else {
+            bindData.addAll(
+                _data.filter {
+                    it.nickname.orEmpty().contains(input, ignoreCase = true)
                 }
-            }
-
-            else -> {
-                for (i in originalData.indices) {
-                    val item = originalData[i]
-                    if (
-                            item.nickname.orEmpty().lowercase().contains(input.orEmpty())
-                            &&
-                            item.key.orEmpty().lowercase() == key.orEmpty().lowercase()
-                    ) {
-                        bindData.add(originalData[i])
-                    }
-                }
-            }
+            )
         }
         table.updateUI()
     }
@@ -249,20 +192,21 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
         val editor = e.getRequiredData(CommonDataKeys.EDITOR)
         WriteCommandAction.runWriteCommandAction(e.project) {
             for (resp in bindData) {
-                if (resp.isChoose.orDefault()) {
-                    editor.document.insertString(editor.caretModel.offset, inset(resp))
+                if (resp.isChoose == true) {
+                    editor.document.insertString(editor.caretModel.offset, resp.insertResult())
                 }
             }
         }
     }
 
-    private fun inset(repo: Repository): String {
-        return if (isJava) insertJava(repo)
-        else insertKotlin(repo)
+    private inline fun Repository.insertResult(): String {
+        return when (chosenModuleType.get()) {
+            ChoseModuleType.Kotlin -> implementationToKotlin(this)
+            ChoseModuleType.Groovy -> implementationToGroovy(this)
+        }
     }
 
-
-    private fun insertJava(repo: Repository): String {
+    private fun implementationToGroovy(repo: Repository): String {
         val usageVersion = if (repo.customVersion.isNullOrBlank()) repo.version else repo.customVersion
         return if (repo.compilerId.isNullOrBlank()) {
             """${repo.dependenceMode} '${repo.groupId}:${repo.artifactIdJava}:${usageVersion}'
@@ -274,34 +218,33 @@ class EntranceDialog(@Nullable private val event: AnActionEvent) : DialogWrapper
         }
     }
 
-    private fun insertKotlin(repo: Repository): String {
+    private fun implementationToKotlin(repo: Repository): String {
         val usageVersion = if (repo.customVersion.isNullOrBlank()) repo.version else repo.customVersion
         return if (repo.compilerId.isNullOrBlank()) {
-            """${repo.dependenceMode} '${repo.groupId}:${repo.artifactId}:${usageVersion}'
+            """${repo.dependenceMode}("${repo.groupId}:${repo.artifactId}:${usageVersion}")
     """
         } else {
-            """${repo.dependenceMode} '${repo.groupId}:${repo.artifactId}:${usageVersion}'
-    kapt '${repo.groupId}:${repo.compilerId}:${usageVersion}'
+            """${repo.dependenceMode}("${repo.groupId}:${repo.artifactId}:${usageVersion}"
+    kapt("${repo.groupId}:${repo.compilerId}:${usageVersion}")
     """
         }
     }
 
     private fun listRepos() {
         OkHttpClient().newCall(
-                Request.Builder()
-                        .addHeader("factory-api-version", "v2.0")
-                        .url("https://plugins.95factory.com/api/autogradle/repository").get().build()
+            Request.Builder()
+                .addHeader("factory-api-version", "v2.0")
+                .url("https://plugins.95factory.com/api/autogradle/repository").get().build()
         ).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {}
 
             override fun onResponse(call: Call, response: Response) {
-                Gson().fromJson<ApiResponse>(response.body?.string(), ApiResponse::class.java)?.let { result ->
-                    originalData = result.data
+                Gson().fromJson(response.body?.string(), ApiResponse::class.java)?.let { result ->
+                    _data = result.data
                     bindData.clear()
-                    bindData.addAll(result.data)
+                    bindData.addAll(_data)
                     table.updateUI()
                 }
-
             }
         })
     }

@@ -1,9 +1,10 @@
-package com.jiangyy.autogradle.ui
+package com.jiangyy.autogradle.ui.table
 
 import com.intellij.ui.table.JBTable
 import com.jiangyy.autogradle.utils.Icons
 import java.awt.Component
 import javax.swing.AbstractCellEditor
+import javax.swing.JLabel
 import javax.swing.JTable
 import javax.swing.table.TableCellEditor
 import javax.swing.table.TableCellRenderer
@@ -11,7 +12,7 @@ import javax.swing.table.TableCellRenderer
 class IconColumn(table: JBTable) : AbstractCellEditor(), TableCellEditor,
     TableCellRenderer {
 
-    private var mOperatePanel: JIconPanel = JIconPanel(Icons.GithubIcon)
+    private var mOperatePanel = JLabel(Icons.GithubIcon, JLabel.CENTER)
 
     init {
         val tableColumn = table.columnModel.getColumn(4)
