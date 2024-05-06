@@ -3,9 +3,6 @@ package com.jiangyy.autogradle.utils
 import com.intellij.openapi.util.IconLoader
 import javax.swing.Icon
 
-inline fun Int?.orZero(): Int = this ?: 0
-inline fun Boolean?.orDefault(): Boolean = this ?: false
-
 object Icons {
 
     @JvmField

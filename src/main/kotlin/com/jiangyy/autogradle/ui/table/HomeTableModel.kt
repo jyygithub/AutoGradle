@@ -1,11 +1,9 @@
 package com.jiangyy.autogradle.ui.table
 
 import com.jiangyy.autogradle.entity.Repository
-import com.jiangyy.autogradle.utils.orDefault
-import com.jiangyy.autogradle.utils.orZero
 import javax.swing.table.AbstractTableModel
 
-class HomeTableModel(private val repositories: MutableList<Repository>) : AbstractTableModel() {
+class HomeTableModel(private val repositories: List<Repository>) : AbstractTableModel() {
 
     private val mColumnNames = mutableListOf("", "Repository", "Current Version", "Custom Version", "")
 
@@ -29,20 +27,13 @@ class HomeTableModel(private val repositories: MutableList<Repository>) : Abstra
         return columnIndex == 0 || columnIndex == 3
     }
 
-    private var isJava = false
-
-    fun updateLanguage(isJava: Boolean) {
-        this.isJava = isJava
-        fireTableDataChanged()
-    }
-
     override fun getValueAt(rowIndex: Int, columnIndex: Int): Any {
         return when (columnIndex) {
-            0 -> repositories[rowIndex].isChoose.orDefault()
+            0 -> repositories[rowIndex].isChoose ?: false
             1 -> repositories[rowIndex].nickname.orEmpty()
             2 -> repositories[rowIndex].version.orEmpty()
             3 -> repositories[rowIndex].customVersion.orEmpty()
-            4 -> repositories[rowIndex].urlType.orZero()
+            4 -> repositories[rowIndex].urlType ?: 0
             else -> ""
         }
     }
